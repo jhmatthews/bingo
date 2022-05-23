@@ -1,4 +1,4 @@
-FILL
+Refuses to enter a crossword clue that's almost definitely correct
 FILL
 FILL
 FILL
