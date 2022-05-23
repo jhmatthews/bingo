@@ -5,9 +5,12 @@ from matplotlib import rc
 #rc('font',**{'family':'serif','serif':['Palatino']})
 #rc('text', usetex=False)
 
-your_name = sys.argv[1]
+your_name = name = input("What is your name? (no caps)")
 
 boys = ["rob", "aarran", "james", "sam"]
+
+if your_name not in boys: 
+	raise ValueError ("YOU ARE NOT ONE OF THE BOIZ!")
 
 def make_bingo(): 
 	NX = 6
