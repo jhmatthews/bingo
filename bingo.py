@@ -5,12 +5,27 @@ from matplotlib import rc
 #rc('font',**{'family':'serif','serif':['Palatino']})
 #rc('text', usetex=False)
 
-your_name = name = input("What is your name? (no caps)")
+def deal_with_long_sentences (entry):
+	'''
+	only allow 5 words per line
+	'''
+	max_words_per_line = 5
+	words = entry.split()
+	nwords = len(words)
+	lines = (nwords // max_words_per_line) + 1
 
-boys = ["rob", "aarran", "james", "sam"]
 
-if your_name not in boys: 
-	raise ValueError ("YOU ARE NOT ONE OF THE BOIZ!")
+	if lines == 1:
+		return entry 
+	else:
+		new_entry = ""
+		for i in range(nwords):
+			new_entry += " " + words[i]
+			if ( (i+1) % max_words_per_line == 0) and (i != 0):
+				new_entry += "\n"
+
+	return new_entry 
+
 
 def make_bingo(): 
 	NX = 6
@@ -29,7 +44,6 @@ def make_bingo():
 			print ("Reading bingo for {}".format(boy))
 
 			f = open("{}.txt".format(boy))
-			print (boy)
 			entries = [line for line in f]
 			f.close()
 
@@ -39,22 +53,30 @@ def make_bingo():
 			np.random.shuffle(entries)
 
 			for i in range(Nper_person):
-				bingo_card.append("{}\n{}".format(boy.capitalize(), entries[i]))
+				entry = deal_with_long_sentences(entries[i])
+				bingo_card.append("{}\n{}".format(boy.capitalize(), entry))
 
-	print (bingo_card)
+	
 	np.random.shuffle(bingo_card)
-	print (bingo_card)
+	#print (bingo_card)
+	print ("Making bingo card....")
 
-	plt.figure(figsize=(10,6))
+	plt.figure(figsize=(11,7))
 	for i in range(N):
 		plt.subplot(NX, NY, i+1)
 		plt.text(0.5,0.5,bingo_card[i], ha='center', va='center')
 		plt.tick_params(axis='both',which='both',bottom=False,top=False,left=False, right=False, labelleft=False, labelbottom=False)
 
-	print (your_name)
 	plt.subplots_adjust(top=0.98, right=0.98, left=0.02, bottom=0.02, hspace=0, wspace=0)
 	plt.savefig("card_for_{}.pdf".format(your_name))
+	print ("saved as card_for_{}.pdf".format(your_name))
 
 
+if __name__ == "__main__":
+	your_name = name = input("What is your name? (no caps): ")
 
-make_bingo()
+	boys = ["rob", "aarran", "james", "sam"]
+
+	if your_name not in boys: 
+		raise ValueError ("YOU ARE NOT ONE OF THE BOIZ!")
+	make_bingo()
