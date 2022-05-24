@@ -61,11 +61,23 @@ def make_bingo():
 	#print (bingo_card)
 	print ("Making bingo card....")
 
+	red_square = np.random.randint(N)
+	green_square = np.random.randint(N)
+	while green_square == red_square:
+		green_square = np.random.randint(N)
+
 	plt.figure(figsize=(11,7))
 	for i in range(N):
 		plt.subplot(NX, NY, i+1)
 		plt.text(0.5,0.5,bingo_card[i], ha='center', va='center')
+		if i == red_square:
+			plt.fill_between([0,1],0,1, color="C3", alpha=0.5)
+		if i == green_square:
+			plt.fill_between([0,1],0,1, color="C2", alpha=0.5)
+
 		plt.tick_params(axis='both',which='both',bottom=False,top=False,left=False, right=False, labelleft=False, labelbottom=False)
+		plt.xlim(0,1)
+		plt.ylim(0,1)
 
 	plt.subplots_adjust(top=0.98, right=0.98, left=0.02, bottom=0.02, hspace=0, wspace=0)
 	plt.savefig("card_for_{}.pdf".format(your_name))
